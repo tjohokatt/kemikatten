@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>:root{color-scheme:light;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Selmas kemikatt</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800&display=swap">
+<style>
+/* Layout: en smal spelkolumn. Klibbig statusrad överst, sedan katten Molly med pratbubbla och under den ett aktivitetskort. */
+:root{
+  --bg:#E4F5F1; --dot:#CDEBE5; --surface:#FFFFFF; --surface-2:#F2FAF8; --ink:#2A2342; --ink-soft:#625B7C; --line:#C5E2DC;
+  --pink:#EE4F8B; --pink-deep:#C2356C; --pink-soft:#FFE0EB; --on-pink:#FFFFFF;
+  --aqua:#159C97; --aqua-soft:#CFF2EE;
+  --sun:#F5B921; --sun-deep:#D99A00; --sun-soft:#FFF0C2;
+  --lilac:#7E63E0; --lilac-soft:#E8E1FF;
+  --good:#168A5B; --good-soft:#D3F4E3; --bad:#D4491F; --bad-soft:#FFE2D6;
+  --cat:#FFD6A3; --cat-dark:#F0A257; --cat-belly:#FFF6EA; --cat-pink:#FF97B8; --cat-ink:#2A2342;
+  --atom-h:#FFFFFF; --atom-o:#F0638F; --atom-c:#5B5670; --neutron:#CFC8E8;
+  --font-display:"Baloo 2","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+  --font-body:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1A162E; --dot:#231E3D; --surface:#2A2447; --surface-2:#322B54; --ink:#F5F0FF; --ink-soft:#BDB4DA; --line:#433A6E;
+  --pink:#FF7DAE; --pink-deep:#C74E80; --pink-soft:#4B2946; --on-pink:#2A0F20;
+  --aqua:#56D9D1; --aqua-soft:#1E4850;
+  --sun:#FFD15C; --sun-deep:#E0B13A; --sun-soft:#4B4020;
+  --lilac:#B49EFF; --lilac-soft:#3A2F68;
+  --good:#56D6A0; --good-soft:#1D4739; --bad:#FF8E6B; --bad-soft:#522B22;
+  --atom-o:#FF7DAE; --atom-c:#8E88A8; --neutron:#A79FCB;
+  color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#1A162E; --dot:#231E3D; --surface:#2A2447; --surface-2:#322B54; --ink:#F5F0FF; --ink-soft:#BDB4DA; --line:#433A6E;
+  --pink:#FF7DAE; --pink-deep:#C74E80; --pink-soft:#4B2946; --on-pink:#2A0F20;
+  --aqua:#56D9D1; --aqua-soft:#1E4850;
+  --sun:#FFD15C; --sun-deep:#E0B13A; --sun-soft:#4B4020;
+  --lilac:#B49EFF; --lilac-soft:#3A2F68;
+  --good:#56D6A0; --good-soft:#1D4739; --bad:#FF8E6B; --bad-soft:#522B22;
+  --atom-o:#FF7DAE; --atom-c:#8E88A8; --neutron:#A79FCB;
+  color-scheme:dark }
+
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:radial-gradient(var(--dot) 2.5px,transparent 3px);background-size:26px 26px;color:var(--ink);font:600 17px/1.5 var(--font-body);-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--font-display);line-height:1.15;margin:0;text-wrap:balance}
+p{margin:0}
+sub{font-size:.7em;line-height:0}
+:focus-visible{outline:3px solid var(--lilac);outline-offset:2px}
+
+/* statusrad */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:2px solid var(--line)}
+.bar-in{max-width:760px;margin:0 auto;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;align-items:center;gap:8px}
+.brand{font:800 21px/1 var(--font-display);margin-right:auto}
+.pill{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:4px 11px;font:800 15px/1.3 var(--font-body);font-variant-numeric:tabular-nums;white-space:nowrap}
+button.pill:hover{border-color:var(--pink)}
+#homeBtn{margin-right:auto}
+
+.wrap{max-width:760px;margin:0 auto;padding-block:20px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+
+/* katt + pratbubbla */
+.cat{position:relative}
+.cat svg{display:block;width:100%;height:auto}
+.bubble{position:relative;background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:14px 18px;font-weight:700;min-width:0}
+.bubble::before{content:"";position:absolute;left:-9px;top:50%;width:16px;height:16px;margin-top:-8px;background:var(--surface);border-left:2px solid var(--line);border-bottom:2px solid var(--line);transform:rotate(45deg)}
+.hero{display:grid;grid-template-columns:minmax(104px,190px) minmax(0,1fr);gap:18px;align-items:center}
+.hero .bubble{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.hero h1{font-size:clamp(28px,6vw,40px);font-weight:800;color:var(--pink)}
+.coach{display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;align-items:center}
+.coach .bubble{min-height:58px;display:flex;align-items:center}
+.heart{position:absolute;left:50%;top:20%;font-size:26px;color:var(--pink);pointer-events:none;animation:floatup 1.2s ease-out forwards}
+
+/* knappar */
+.btn{background:var(--pink);color:var(--on-pink);border:0;border-radius:999px;padding:10px 24px;font:800 20px/1.2 var(--font-display);box-shadow:0 4px 0 var(--pink-deep);transition:transform .1s,box-shadow .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pink-deep)}
+.btn.small{font-size:17px;padding:8px 18px}
+.btn.ghost{background:var(--surface);color:var(--ink);border:2px solid var(--line);box-shadow:0 4px 0 var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+
+/* startsidan */
+.gift{font-size:15px;color:var(--ink-soft)}
+.sec-title{font-size:24px;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.tile{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:center;text-align:left;padding:12px 14px;background:var(--surface);border:2px solid var(--line);border-radius:22px;box-shadow:0 4px 0 var(--line);transition:transform .12s,box-shadow .12s}
+.tile:hover{border-color:var(--pink)}
+.tile:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.tile .ico{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-size:30px}
+.t-pink{background:var(--pink-soft)} .t-aqua{background:var(--aqua-soft)} .t-sun{background:var(--sun-soft)} .t-lilac{background:var(--lilac-soft)}
+.tile .txt{display:flex;flex-direction:column;gap:1px;min-width:0}
+.tile .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.kick{font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft)}
+.tile .tt{font:800 20px/1.15 var(--font-display)}
+.tile .sub{font-size:14px;color:var(--ink-soft);line-height:1.3}
+.stars{letter-spacing:2px;color:var(--line);font-size:17px;white-space:nowrap}
+.stars b{color:var(--sun-deep);font-weight:400}
+.diploma{border:3px dashed var(--sun);background:var(--sun-soft);border-radius:24px;padding:18px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+.diploma h2{font-size:26px}
+
+/* station */
+.st-head{display:flex;flex-direction:column;gap:4px}
+.st-head h1{font-size:clamp(26px,5.5vw,34px);font-weight:800}
+.dots{display:flex;gap:6px;flex-wrap:wrap;padding-top:4px}
+.dots i{width:12px;height:12px;border-radius:999px;background:var(--line);transition:all .2s}
+.dots i.done{background:var(--good)} .dots i.now{width:30px;background:var(--pink)}
+.stage{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.q{font-size:clamp(21px,4.6vw,26px);font-weight:700}
+.note{font-size:14px;color:var(--ink-soft);text-align:center}
+.art{max-width:300px;margin:0 auto;width:100%}
+.art svg{display:block;width:100%;height:auto}
+.fb{display:flex;flex-direction:column;gap:12px;align-items:flex-start;background:var(--good-soft);border:2px solid var(--good);border-radius:20px;padding:14px 16px;animation:pop .25s}
+.fb.oops{background:var(--sun-soft);border-color:var(--sun)}
+.fb p{font-weight:700}
+
+/* flerval */
+.opts{display:grid;gap:10px}
+.opts.short{grid-template-columns:1fr 1fr}
+.opt{text-align:left;padding:13px 16px;border-radius:16px;border:2px solid var(--line);background:var(--surface-2);color:var(--ink);font-weight:700;box-shadow:0 3px 0 var(--line);transition:transform .1s}
+.opts.short .opt{text-align:center;font:800 21px/1.2 var(--font-display)}
+.opt:hover:not(:disabled){border-color:var(--pink)}
+.opt:active:not(:disabled){transform:translateY(2px)}
+.opt:disabled{cursor:default;opacity:.55}
+.opt.right{background:var(--good-soft);border-color:var(--good);box-shadow:none;opacity:1}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);box-shadow:none;opacity:.8;animation:shake .35s}
+
+/* dra och släpp */
+.tray{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;min-height:50px}
+.chip{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:8px 14px;border-radius:14px;background:var(--sun-soft);border:2px solid var(--sun);color:var(--ink);font:800 16px/1.25 var(--font-body);box-shadow:0 3px 0 var(--sun);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;text-align:left}
+.chip.sel{outline:3px solid var(--pink);outline-offset:2px;transform:translateY(-3px)}
+.chip.dragging{z-index:60;cursor:grabbing;box-shadow:0 10px 18px rgba(0,0,0,.25)}
+.chip.locked{background:var(--good-soft);border-color:var(--good);box-shadow:none;cursor:default}
+.chip.shake,.mbtn.shake,.oitem.shake{animation:shake .35s}
+.pic{position:relative;max-width:440px;width:100%;margin:0 auto}
+.pic svg{display:block;width:100%;height:auto}
+.pic.scene{border-radius:18px;overflow:hidden;border:2px solid var(--line)}
+.pic text{font-family:var(--font-body);font-weight:800}
+.slot{position:absolute;transform:translate(-50%,-50%);min-width:98px;min-height:38px;padding:1px;border:2px dashed var(--ink-soft);border-radius:13px;background:var(--surface);display:grid;place-items:center;cursor:pointer}
+.slot.w{min-width:124px}
+.slot.full{border-color:transparent;background:transparent;cursor:default}
+.slot .chip{font-size:14px;padding:6px 7px;width:100%;white-space:nowrap}
+.zone.over{border-color:var(--pink);background:var(--pink-soft)}
+.has-sel .zone:not(.full){border-color:var(--pink);animation:pulse 1s infinite}
+.buckets{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.bucket{border:2px dashed var(--ink-soft);border-radius:18px;padding:10px 12px;min-height:106px;background:var(--surface-2);display:flex;flex-direction:column;gap:6px;cursor:pointer}
+.b-title{font:800 18px/1.2 var(--font-display)}
+.b-desc{font-size:13px;color:var(--ink-soft);line-height:1.25}
+.b-items{display:flex;flex-wrap:wrap;gap:6px}
+
+/* para ihop */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.match .col{display:grid;gap:8px;align-content:start}
+.mbtn{padding:8px 10px;border-radius:14px;border:2px solid var(--line);background:var(--surface-2);color:var(--ink);font:800 19px/1.3 var(--font-display);box-shadow:0 3px 0 var(--line)}
+.mbtn.sym{background:var(--lilac-soft);border-color:var(--lilac);box-shadow:0 3px 0 var(--lilac)}
+.mbtn.sel{outline:3px solid var(--pink);outline-offset:2px}
+.mbtn.done{background:var(--good-soft);border-color:var(--good);box-shadow:none;cursor:default}
+
+/* memory */
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:440px;width:100%;margin:0 auto}
+.mcard{aspect-ratio:1;border:0;padding:0;background:none;perspective:600px}
+.mcard .in{position:relative;display:block;width:100%;height:100%;transition:transform .35s;transform-style:preserve-3d}
+.mcard.open .in{transform:rotateY(180deg)}
+.mcard .f,.mcard .b{position:absolute;inset:0;border-radius:16px;display:grid;place-items:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:2px solid var(--line)}
+.mcard .f{background:var(--pink-soft);border-color:var(--pink);font-size:28px}
+.mcard .b{background:var(--surface-2);color:var(--ink);transform:rotateY(180deg);font:800 clamp(15px,4.4vw,21px)/1.1 var(--font-display);padding:4px;text-align:center}
+.mcard.matched .b{background:var(--good-soft);border-color:var(--good)}
+
+/* ordning */
+.olist{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:o}
+.olist li{counter-increment:o;display:grid;grid-template-columns:32px minmax(0,1fr);gap:10px;align-items:center;background:var(--good-soft);border:2px solid var(--good);border-radius:14px;padding:8px 12px;font-weight:700;line-height:1.35;animation:pop .3s}
+.olist li::before{content:counter(o);width:32px;height:32px;border-radius:50%;background:var(--good);color:var(--surface);display:grid;place-items:center;font:800 18px/1 var(--font-display)}
+.opool{display:grid;gap:8px}
+.oitem{text-align:left;padding:11px 14px;border-radius:14px;border:2px solid var(--sun);background:var(--sun-soft);color:var(--ink);font-weight:700;line-height:1.35;box-shadow:0 3px 0 var(--sun)}
+
+/* bygg molekyl */
+.bench{min-height:124px;border:2px dashed var(--ink-soft);border-radius:20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:12px;background:var(--surface-2)}
+.bench-empty{color:var(--ink-soft);font-size:15px}
+.bench svg{width:170px;max-width:100%;height:auto;animation:pop .4s}
+.atom{width:54px;height:54px;border-radius:50%;display:inline-grid;place-items:center;font:800 22px/1 var(--font-display);border:2px solid var(--ink-soft);color:#2A2342;padding:0;transition:transform .1s}
+.a-H{background:var(--atom-h);width:44px;height:44px;font-size:18px}
+.a-O{background:var(--atom-o)}
+.a-C{background:var(--atom-c);color:#FFFFFF}
+.atoms{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:end}
+.atom-btn{display:grid;justify-items:center;gap:2px;background:none;border:0;padding:6px 12px;border-radius:14px}
+.atom-btn:hover .atom{transform:scale(1.1)}
+.atom-name{font-size:14px;font-weight:800}
+
+/* fas-simulator */
+.sim{border:2px solid var(--line);border-radius:18px;background:var(--surface-2);overflow:hidden;max-width:460px;width:100%;margin:0 auto}
+.sim canvas{display:block;width:100%}
+.therm{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;max-width:460px;width:100%;margin:0 auto;font-weight:800}
+.therm input{width:100%;height:34px;accent-color:var(--pink)}
+.phase-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:460px;width:100%;margin:0 auto}
+.ptab{padding:8px 4px;border-radius:12px;border:2px solid var(--line);background:var(--surface-2);color:var(--ink);font-weight:800;font-size:15px}
+.ptab.on{background:var(--aqua-soft);border-color:var(--aqua)}
+.ptab.seen::after{content:" ✓";color:var(--good)}
+.phase-info{max-width:460px;width:100%;margin:0 auto;background:var(--aqua-soft);border-radius:14px;padding:10px 14px;font-weight:700;min-height:86px}
+.phase-info strong{display:block;font:800 19px/1.2 var(--font-display)}
+
+/* resultat */
+.result{text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;background:var(--surface);border:2px solid var(--line);border-radius:28px;padding:24px 18px}
+.result .cat{width:150px}
+.result h1{font-size:clamp(28px,6vw,38px);font-weight:800}
+.bigstars{font-size:56px;line-height:1;letter-spacing:6px;color:var(--line)}
+.bigstars .on{color:var(--sun);display:inline-block;animation:pop .5s both}
+.bigstars .on:nth-child(2){animation-delay:.2s} .bigstars .on:nth-child(3){animation-delay:.4s}
+.giftbox{background:var(--lilac-soft);border-radius:16px;padding:10px 16px;font-weight:800}
+.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:99}
+
+/* minnesbok */
+.note-card{background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.note-card h2{font-size:23px;color:var(--pink)}
+.note-card dl{margin:0;display:grid;gap:10px}
+.note-card dt{font:700 18px/1.25 var(--font-display)}
+.note-card dd{margin:0;max-width:62ch}
+.symtab{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.symtab div{background:var(--lilac-soft);border-radius:12px;padding:6px 10px;display:flex;justify-content:space-between;gap:8px;font-weight:800}
+.symtab b{font-family:var(--font-display)}
+
+@keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes pulse{50%{box-shadow:0 0 0 5px var(--pink-soft)}}
+@keyframes floatup{to{transform:translate(var(--dx,0),-90px) scale(1.4);opacity:0}}
+@media (max-width:520px){
+  body{font-size:16px}
+  .hero{gap:14px}
+  .coach{grid-template-columns:68px minmax(0,1fr);gap:12px}
+  .stage{padding:14px 12px}
+  .bubble{padding:11px 14px}
+  .brand{font-size:19px}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <button type="button" class="pill" id="homeBtn" hidden>‹ Kartan</button>
+    <span class="brand" id="brand">Kemikatten</span>
+    <span class="pill" title="Stjärnor"><span aria-hidden="true">⭐</span><span id="starCount">0/24</span></span>
+    <span class="pill" title="Fiskar till Molly"><span aria-hidden="true">🐟</span><span id="fishCount">0</span></span>
+    <button type="button" class="pill" id="soundBtn" aria-label="Ljud av eller på">🔊</button>
+  </div>
+</header>
+<main class="wrap" id="view"></main>
+
+<script>
+(function(){
+'use strict';
+var view=document.getElementById('view');
+var TAU=Math.PI*2;
+function T(s){return String(s).replace(/₂/g,'<sub>2</sub>');}
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=T(html);return e;}
+function btn(cls,html,fn){var b=el('button',cls,html);b.type='button';if(fn)b.addEventListener('click',fn);return b;}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function shake(e){e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake');}
+
+/* ---------- sparat läge ---------- */
+var KEY='selmas-kemikatt-v1';
+var save={stars:{},fish:0,sound:true};
+try{var raw=JSON.parse(localStorage.getItem(KEY)||'{}');if(raw&&typeof raw==='object'){save.stars=raw.stars||{};save.fish=raw.fish|0;save.sound=raw.sound!==false;}}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(save));}catch(e){}}
+
+/* ---------- ljud ---------- */
+var ac=null;
+function audio(){if(!save.sound)return null;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();return ac;}catch(e){return null;}}
+function tone(f,start,dur,type,vol,f2){var a=audio();if(!a)return;try{var o=a.createOscillator(),g=a.createGain(),t=a.currentTime+start;o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+dur);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||0.1,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+dur+0.05);}catch(e){}}
+var sfx={
+  good:function(){tone(660,0,.12,'triangle');tone(990,.1,.22,'triangle');},
+  bad:function(){tone(250,0,.24,'sine',.1,170);},
+  tap:function(){tone(520,0,.06,'sine',.05);},
+  win:function(){[523,659,784,1047].forEach(function(f,i){tone(f,i*.13,.28,'triangle');});},
+  meow:function(){tone(600,0,.18,'triangle',.09,960);tone(960,.17,.32,'triangle',.09,500);}
+};
+
+/* ---------- katten Molly ---------- */
+var GIFTS=[{at:3,key:'bow',name:'en rosett'},{at:10,key:'goggles',name:'ett par labbglasögon'},{at:20,key:'crown',name:'en krona'}];
+function cat(mood){
+  var total=totalStars();
+  var has=function(k){return GIFTS.some(function(g){return g.key===k&&total>=g.at;});};
+  var eyes={
+    normal:'<ellipse cx="78" cy="90" rx="8.5" ry="10.5" fill="var(--cat-ink)"/><ellipse cx="122" cy="90" rx="8.5" ry="10.5" fill="var(--cat-ink)"/><circle cx="81" cy="86" r="3.2" fill="#fff"/><circle cx="125" cy="86" r="3.2" fill="#fff"/>',
+    happy:'<path d="M68 93q10-13 20 0M112 93q10-13 20 0" fill="none" stroke="var(--cat-ink)" stroke-width="4.5" stroke-linecap="round"/>',
+    oops:'<ellipse cx="78" cy="93" rx="7" ry="8" fill="var(--cat-ink)"/><ellipse cx="122" cy="93" rx="7" ry="8" fill="var(--cat-ink)"/><circle cx="80" cy="90" r="2.5" fill="#fff"/><circle cx="124" cy="90" r="2.5" fill="#fff"/><path d="M66 82l20-6M134 82l-20-6" stroke="var(--cat-ink)" stroke-width="3.5" stroke-linecap="round"/>',
+    love:'<path d="M78 100C64 91 66 80 73 80C76 80 78 82 78 84C78 82 80 80 83 80C90 80 92 91 78 100Z" fill="#EE4F8B"/><path d="M122 100C108 91 110 80 117 80C120 80 122 82 122 84C122 82 124 80 127 80C134 80 136 91 122 100Z" fill="#EE4F8B"/>'
+  };
+  var mouth={
+    normal:'<path d="M90 111q5 6 10 0q5 6 10 0" fill="none" stroke="var(--cat-ink)" stroke-width="3" stroke-linecap="round"/>',
+    happy:'<path d="M90 110q10 16 20 0z" fill="#D9487A" stroke="var(--cat-ink)" stroke-width="3" stroke-linejoin="round"/>',
+    oops:'<path d="M93 117q7-6 14 0" fill="none" stroke="var(--cat-ink)" stroke-width="3" stroke-linecap="round"/>'
+  };
+  mouth.love=mouth.happy;
+  var s='<svg viewBox="0 0 200 196" role="img" aria-label="Katten Molly">';
+  s+='<path d="M140 168q46 6 44-34q-2-16-14-12" fill="none" stroke="var(--cat-dark)" stroke-width="13" stroke-linecap="round"/>';
+  s+='<ellipse cx="100" cy="150" rx="46" ry="38" fill="var(--cat)"/><ellipse cx="100" cy="158" rx="26" ry="25" fill="var(--cat-belly)"/>';
+  s+='<ellipse cx="80" cy="184" rx="14" ry="8" fill="var(--cat-belly)" stroke="var(--cat-dark)" stroke-width="2"/><ellipse cx="120" cy="184" rx="14" ry="8" fill="var(--cat-belly)" stroke="var(--cat-dark)" stroke-width="2"/>';
+  s+='<path d="M52 62L58 14L96 44Z" fill="var(--cat)" stroke="var(--cat)" stroke-width="8" stroke-linejoin="round"/><path d="M148 62L142 14L104 44Z" fill="var(--cat)" stroke="var(--cat)" stroke-width="8" stroke-linejoin="round"/>';
+  s+='<path d="M63 50L65 27L84 43Z" fill="var(--cat-pink)"/><path d="M137 50L135 27L116 43Z" fill="var(--cat-pink)"/>';
+  s+='<ellipse cx="100" cy="88" rx="56" ry="48" fill="var(--cat)"/>';
+  s+='<path d="M100 44v13M88 46v9M112 46v9" stroke="var(--cat-dark)" stroke-width="5" stroke-linecap="round"/>';
+  s+='<ellipse cx="60" cy="106" rx="10" ry="6" fill="var(--cat-pink)" opacity=".55"/><ellipse cx="140" cy="106" rx="10" ry="6" fill="var(--cat-pink)" opacity=".55"/>';
+  s+=eyes[mood]||eyes.normal;
+  s+='<path d="M95 101h10l-5 6z" fill="var(--cat-pink)" stroke="var(--cat-pink)" stroke-width="3" stroke-linejoin="round"/>';
+  s+=mouth[mood]||mouth.normal;
+  s+='<path d="M48 98l-22-5M48 106l-23 3M152 98l22-5M152 106l23 3" stroke="var(--cat-dark)" stroke-width="2.5" stroke-linecap="round"/>';
+  if(has('goggles'))s+='<path d="M47 70Q100 46 153 70" fill="none" stroke="#5B5670" stroke-width="5"/><circle cx="80" cy="60" r="12" fill="#BFF0EC" fill-opacity=".8" stroke="#5B5670" stroke-width="3"/><circle cx="120" cy="60" r="12" fill="#BFF0EC" fill-opacity=".8" stroke="#5B5670" stroke-width="3"/>';
+  if(has('crown'))s+='<path d="M76 44L72 18L88 30L100 12L112 30L128 18L124 44Z" fill="#FFD23F" stroke="#D99A00" stroke-width="2.5" stroke-linejoin="round"/><circle cx="100" cy="34" r="4" fill="#EE4F8B"/><circle cx="85" cy="37" r="3" fill="#56D9D1"/><circle cx="115" cy="37" r="3" fill="#56D9D1"/>';
+  if(has('bow'))s+='<g transform="translate(144 40) rotate(22)"><path d="M0 0l-17-11v22zM0 0l17-11v22z" fill="#7E63E0" stroke="#5B43B8" stroke-width="2" stroke-linejoin="round"/><circle r="5.5" fill="#EE4F8B"/></g>';
+  return s+'</svg>';
+}
+var PRAISE=['Purrfekt!','Mjaa, helt rätt!','Kattastiskt!','Tass upp!','Spinnande bra!','Du är grym!','Rätt! Jag spinner av glädje.','Mjau, vad du kan!'];
+var OOPS=['Nästan! Prova en gång till.','Hoppsan, inte riktigt. Du klarar det!','Mjau… tänk efter en gång till.','Inte den. Testa en annan!'];
+var ASK=['Vad tror du?','Den här kan du!','Tänk efter och välj.','Mjau, vilken är rätt?'];
+var FACTS=[
+  'Mums! Visste du att jag är uppbyggd av atomer? Det är allt omkring oss.',
+  'Tack! Min vattenskål är full av H₂O: två väteatomer och en syreatom i varje molekyl.',
+  'Namnam! Jag är materia. Jag väger något och tar plats, mest i soffan.',
+  'Mjau! Vattendroppar på mina morrhår blir runda. Det är ytspänningen.',
+  'Spinn! Is är vatten i fast form. Brr, kallt om tassarna.',
+  'Tack Selma! När en vattenpöl torkar i solen har vattnet avdunstat.',
+  'Mmm! Proton och Positiv börjar båda på P. Så minns jag det.',
+  'Gott! Järn skrivs Fe. Det finns inget F i järn, så den får man plugga in.',
+  'Purr! Regn som sipprar ner i marken blir grundvatten.',
+  'Du är världens gosigaste kemist, Selma. Mjau!'
+];
+
+/* ---------- bilder ---------- */
+var ATOM_ART='<svg viewBox="0 0 360 280" role="img" aria-label="En atom med kärna i mitten och elektroner runt om">'
+ +'<g fill="none" stroke="var(--ink-soft)" stroke-width="2" opacity=".5"><ellipse cx="180" cy="140" rx="120" ry="52" transform="rotate(-25 180 140)"/><ellipse cx="180" cy="140" rx="120" ry="52" transform="rotate(25 180 140)"/></g>'
+ +'<circle cx="180" cy="140" r="47" fill="none" stroke="var(--lilac)" stroke-width="2.5" stroke-dasharray="5 6"/>'
+ +'<g stroke="var(--ink-soft)" stroke-width="1.5"><circle cx="192" cy="119" r="14" fill="var(--neutron)"/><circle cx="168" cy="119" r="14" fill="var(--atom-o)"/><circle cx="156" cy="140" r="14" fill="var(--neutron)"/><circle cx="204" cy="140" r="14" fill="var(--atom-o)"/><circle cx="180" cy="140" r="14" fill="var(--neutron)"/><circle cx="168" cy="161" r="14" fill="var(--atom-o)"/><circle cx="192" cy="161" r="14" fill="var(--neutron)"/></g>'
+ +'<g fill="#2A2342" font-size="19" text-anchor="middle"><text x="168" y="125.5">+</text><text x="204" y="146.5">+</text><text x="168" y="167.5">+</text></g>'
+ +'<g fill="var(--aqua)" stroke="var(--ink-soft)" stroke-width="1.5"><circle cx="289" cy="89" r="11"/><circle cx="71" cy="191" r="11"/><circle cx="253" cy="125" r="11"/></g>'
+ +'<g fill="var(--surface)" font-size="19" text-anchor="middle"><text x="289" y="95">−</text><text x="71" y="197">−</text><text x="253" y="131">−</text></g>'
+ +'<g stroke="var(--ink)" stroke-width="2" stroke-linecap="round"><path d="M104 46L147 107"/><path d="M289 50V76"/><path d="M100 236L159 172"/><path d="M262 236L201 172"/></g>'
+ +'<g fill="var(--ink)"><circle cx="147" cy="107" r="3.5"/><circle cx="289" cy="77" r="3.5"/><circle cx="159" cy="172" r="3.5"/><circle cx="201" cy="172" r="3.5"/></g>'
+ +'</svg>';
+
+var PHASE_ART='<svg viewBox="0 0 360 250" role="img" aria-label="Is, vatten och vattenånga med pilar emellan">'
+ +'<defs><marker id="ahw" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--pink)"/></marker><marker id="ahc" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--aqua)"/></marker></defs>'
+ +'<g fill="var(--surface-2)" stroke="var(--line)" stroke-width="2"><rect x="14" y="83" width="84" height="84" rx="14"/><rect x="138" y="83" width="84" height="84" rx="14"/><rect x="262" y="83" width="84" height="84" rx="14"/></g>'
+ +'<g fill="var(--aqua)"><circle cx="38" cy="100" r="6.5"/><circle cx="56" cy="100" r="6.5"/><circle cx="74" cy="100" r="6.5"/><circle cx="38" cy="117" r="6.5"/><circle cx="56" cy="117" r="6.5"/><circle cx="74" cy="117" r="6.5"/><circle cx="38" cy="134" r="6.5"/><circle cx="56" cy="134" r="6.5"/><circle cx="74" cy="134" r="6.5"/>'
+ +'<circle cx="153" cy="135" r="6.5"/><circle cx="168" cy="127" r="6.5"/><circle cx="183" cy="136" r="6.5"/><circle cx="198" cy="128" r="6.5"/><circle cx="210" cy="138" r="6.5"/><circle cx="160" cy="113" r="6.5"/><circle cx="177" cy="118" r="6.5"/><circle cx="193" cy="112" r="6.5"/><circle cx="208" cy="121" r="6.5"/>'
+ +'<circle cx="279" cy="100" r="6.5"/><circle cx="327" cy="108" r="6.5"/><circle cx="298" cy="132" r="6.5"/><circle cx="333" cy="140" r="6.5"/></g>'
+ +'<g fill="var(--ink)" font-size="13" text-anchor="middle"><text x="56" y="159">Is</text><text x="180" y="159">Vatten</text><text x="304" y="159">Vattenånga</text></g>'
+ +'<g fill="none" stroke-width="3.5" stroke-linecap="round"><path d="M66 78Q116 34 166 78" stroke="var(--pink)" marker-end="url(#ahw)"/><path d="M194 78Q244 34 294 78" stroke="var(--pink)" marker-end="url(#ahw)"/><path d="M294 172Q244 216 194 172" stroke="var(--aqua)" marker-end="url(#ahc)"/><path d="M166 172Q116 216 66 172" stroke="var(--aqua)" marker-end="url(#ahc)"/></g>'
+ +'</svg>';
+
+var CYCLE_ART='<svg viewBox="0 0 360 310" role="img" aria-label="Vattnets kretslopp med sol, hav, moln, regn, berg och mark">'
+ +'<defs><marker id="ahb" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1F6FB2"/></marker><marker id="aho" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#E8663A"/></marker></defs>'
+ +'<rect width="360" height="310" fill="#CDEEFF"/>'
+ +'<path d="M38 6v8M38 62v8M6 38h8M62 38h8M15 15l6 6M55 55l6 6M61 15l-6 6M21 55l-6 6" stroke="#F5B921" stroke-width="4" stroke-linecap="round"/><circle cx="38" cy="38" r="18" fill="#FFD23F"/>'
+ +'<g fill="#FFFFFF"><circle cx="286" cy="48" r="16"/><circle cx="308" cy="38" r="20"/><circle cx="330" cy="48" r="16"/><rect x="286" y="46" width="44" height="18"/></g>'
+ +'<path d="M296 72l-5 13M311 72l-5 13M326 72l-5 13M303 94l-5 13M319 94l-5 13" stroke="#1F6FB2" stroke-width="3" stroke-linecap="round"/>'
+ +'<path d="M0 216Q20 209 40 216T80 216T120 216T160 216V310H0Z" fill="#4FB3E8"/>'
+ +'<path d="M262 202L318 128L360 182V202Z" fill="#A9A6C4"/><path d="M307 143L318 128L329 142Q318 150 307 143Z" fill="#FFFFFF"/>'
+ +'<path d="M132 310V228Q190 208 245 200L360 192V310Z" fill="#8FD694"/>'
+ +'<path d="M132 264L360 254V310H132Z" fill="#C9A47E"/>'
+ +'<path d="M305 200Q250 214 200 228Q165 236 134 240" fill="none" stroke="#4FB3E8" stroke-width="5" stroke-linecap="round"/>'
+ +'<g stroke="#7A5A3A" stroke-width="3" stroke-linecap="round"><path d="M176 214v-12M222 204v-12"/></g><circle cx="176" cy="196" r="9" fill="#3E9B5A"/><circle cx="222" cy="186" r="9" fill="#3E9B5A"/>'
+ +'<g fill="none" stroke="#E8663A" stroke-width="3" stroke-linecap="round"><path d="M28 206q-8-14 0-28q8-14 0-28q-8-14 0-26" marker-end="url(#aho)"/><path d="M52 206q-8-14 0-28q8-14 0-28q-8-14 0-26" marker-end="url(#aho)"/><path d="M76 206q-8-14 0-28q8-14 0-28q-8-14 0-26" marker-end="url(#aho)"/></g>'
+ +'<path d="M74 114Q160 96 264 62" fill="none" stroke="#6B88A8" stroke-width="2.5" stroke-dasharray="5 6" stroke-linecap="round" marker-end="url(#ahb)"/>'
+ +'<g fill="none" stroke="#1F6FB2" stroke-width="2.5" stroke-dasharray="3 4"><path d="M250 232v22" marker-end="url(#ahb)"/><path d="M320 226v24" marker-end="url(#ahb)"/></g>'
+ +'<path d="M350 284H150" fill="none" stroke="#1F6FB2" stroke-width="4" stroke-dasharray="8 6" marker-end="url(#ahb)"/>'
+ +'<g stroke="#2A2342" stroke-width="2" stroke-linecap="round"><path d="M200 44L272 49"/><path d="M220 116L294 98"/></g><g fill="#2A2342"><circle cx="272" cy="49" r="3.5"/><circle cx="294" cy="98" r="3.5"/></g>'
+ +'<text x="58" y="268" fill="#FFFFFF" font-size="15" text-anchor="middle">hav</text>'
+ +'</svg>';
+
+var SKATER_ART='<svg viewBox="0 0 300 100" role="img" aria-label="En liten insekt som går på vattenytan">'
+ +'<rect x="0" y="58" width="300" height="42" rx="12" fill="var(--aqua-soft)"/>'
+ +'<path d="M6 58H96q8 7 16 0H142q8 7 16 0H188q8 7 16 0H294" fill="none" stroke="var(--aqua)" stroke-width="3" stroke-linecap="round"/>'
+ +'<path d="M134 40L104 60M150 42V60M166 40L196 60" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>'
+ +'<ellipse cx="150" cy="38" rx="27" ry="6.5" fill="var(--ink)"/><circle cx="181" cy="37" r="5.5" fill="var(--ink)"/><path d="M185 33l9-9M186 38l11-4" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>'
+ +'</svg>';
+
+var WATER_MOL='<svg viewBox="0 0 170 120" role="img" aria-label="En vattenmolekyl: en syreatom och två väteatomer"><g stroke="var(--ink-soft)" stroke-width="2"><circle cx="48" cy="34" r="19" fill="var(--atom-h)"/><circle cx="122" cy="34" r="19" fill="var(--atom-h)"/><circle cx="85" cy="70" r="34" fill="var(--atom-o)"/></g><g fill="#2A2342" font-family="var(--font-display)" font-weight="800" text-anchor="middle"><text x="48" y="41" font-size="19">H</text><text x="122" y="41" font-size="19">H</text><text x="85" y="80" font-size="28">O</text></g></svg>';
+var O2_MOL='<svg viewBox="0 0 170 120" role="img" aria-label="En syrgasmolekyl: två syreatomer"><g stroke="var(--ink-soft)" stroke-width="2" fill="var(--atom-o)"><circle cx="58" cy="60" r="34"/><circle cx="112" cy="60" r="34"/></g><g fill="#2A2342" font-family="var(--font-display)" font-weight="800" text-anchor="middle" font-size="28"><text x="52" y="70">O</text><text x="118" y="70">O</text></g></svg>';
+
+/* ---------- frågor ---------- */
+function q(text,opts,e,more){var r={type:'mc',q:text,o:opts,e:e};if(more)for(var k in more)r[k]=more[k];return r;}
+var SYM=[['Väte','H'],['Syre','O'],['Kol','C'],['Kväve','N'],['Svavel','S'],['Järn','Fe'],['Klor','Cl'],['Syrgas','O₂'],['Vatten','H₂O']];
+function symQ(p,fwd){
+  var others=shuffle(SYM.filter(function(x){return x[0]!==p[0];})).slice(0,3);
+  return fwd
+    ? q('Vilken kemisk beteckning har '+p[0].toLowerCase()+'?',[p[1]].concat(others.map(function(x){return x[1];})),p[0]+' har beteckningen '+p[1]+'.')
+    : q('Vilket ämne har beteckningen '+p[1]+'?',[p[0]].concat(others.map(function(x){return x[0];})),p[1]+' är beteckningen för '+p[0].toLowerCase()+'.');
+}
+var WORDS=['Smälta','Avdunsta','Kondensera','Stelna'];
+function wq(text,right,e){return q(text,[right].concat(WORDS.filter(function(w){return w!==right;})),e);}
+var DEFS=['Att gå från fast till flytande form','Att gå från flytande form till gasform','Att gå från gasform till flytande form','Att gå från flytande till fast form'];
+function dq(word,i,e){return q('Vad betyder '+word+'?',[DEFS[i]].concat(DEFS.filter(function(d,k){return k!==i;})),e);}
+
+var STATIONS=[
+ {id:'atom',icon:'⚛️',tone:'pink',title:'Atomen',sub:'Atomkärna, protoner, neutroner och elektroner',
+  rounds:function(){return [
+    q('Vad är en atom?',['En pytteliten byggsten','En sorts vattendroppe','Ett litet djur som bor i vatten','En jättestor sten'],'En atom är en pytteliten byggsten. Allt omkring oss är uppbyggt av atomer.'),
+    {type:'label',q:'Sätt rätt namn på atomens delar',art:ATOM_ART,slots:[{x:19.5,y:10.5,a:'atomkärna'},{x:80.5,y:10.5,a:'elektron'},{x:19.5,y:89.5,a:'proton'},{x:80.5,y:89.5,a:'neutron'}],
+     e:'Så ritar du en atom: en atomkärna med protoner och neutroner i mitten, och elektroner runt kärnan.'},
+    {type:'sort',q:'Vilken laddning har de?',buckets:[{id:'p',t:'Positiv +'},{id:'n',t:'Negativ −'},{id:'0',t:'Ingen laddning'}],chips:[['Proton','p'],['Elektron','n'],['Neutron','0']],
+     e:'Protoner är positiva, elektroner är negativa och neutroner saknar laddning. Minnesknep: Proton och Positiv börjar båda på P.'},
+    q('Vad finns i atomkärnan?',['Protoner och neutroner','Elektroner och protoner','Bara elektroner','Vattenmolekyler'],'I atomkärnan finns protoner och neutroner. Elektronerna finns runt kärnan.'),
+    q('Var finns elektronerna?',['Runt atomkärnan','Inne i atomkärnan','Inuti protonerna','Under atomen'],'Elektronerna finns runt atomkärnan.')
+  ];},
+  pool:[
+    q('Vilken laddning har en proton?',['Positiv (+)','Negativ (−)','Ingen laddning'],'Protoner är positiva. Proton och Positiv börjar båda på P.'),
+    q('Vilken laddning har en elektron?',['Negativ (−)','Positiv (+)','Ingen laddning'],'Elektroner är negativa.'),
+    q('Vilken laddning har en neutron?',['Ingen laddning','Positiv (+)','Negativ (−)'],'Neutroner saknar laddning.'),
+    q('Du ska rita en atom. Vilka fyra ord ska du skriva vid rätt delar?',['Atomkärna, proton, neutron och elektron','Is, vatten, ånga och moln','Väte, syre, kol och järn','Smälta, stelna, avdunsta och kondensera'],'Rita en kärna med protoner och neutroner i mitten och elektroner runt om. Skriv atomkärna, proton, neutron och elektron vid rätt delar.')
+  ]},
+ {id:'amne',icon:'🧩',tone:'aqua',title:'Molekyler och ämnen',sub:'Materia, molekyler, grundämnen och kemiska föreningar',
+  rounds:function(){return [
+    q('Vad är materia?',['Allt som väger något och tar plats','Bara sådant som är flytande','Bara sådant man kan se','Ett annat ord för värme'],'Materia är allt som väger något och tar plats, till exempel vatten, luft och en stol.'),
+    q('Vad är en molekyl?',['Två eller flera atomer som sitter ihop','En enda ensam atom','En del av atomkärnan','Ett annat ord för elektron'],'En molekyl är två eller flera atomer som sitter ihop. Exempel är vattenmolekyler och syremolekyler.'),
+    {type:'build',q:'Bygg en vattenmolekyl',say:'Vatten skrivs H₂O. Vilka atomer behöver du?',formula:'H₂O',target:{H:2,O:1},mol:WATER_MOL,
+     e:'En vattenmolekyl består av två väteatomer och en syreatom. Därför skrivs vatten H₂O. Ser den inte ut som ett litet nallehuvud med två öron?'},
+    {type:'build',q:'Bygg en syrgasmolekyl',say:'Syrgas skrivs O₂. Hur många syreatomer blir det?',formula:'O₂',target:{O:2},mol:O2_MOL,
+     e:'Syrgas är en molekyl med två syreatomer. Den skrivs O₂.'},
+    q('Vad är ett grundämne?',['Ett ämne med bara en sorts atomer','Ett ämne med många olika sorters atomer','Ett ämne som bara finns nere i marken','Allt som är flytande'],'Ett grundämne innehåller bara en sorts atomer. Syre, väte, järn och kol är grundämnen.'),
+    {type:'sort',q:'Grundämne eller kemisk förening?',buckets:[{id:'g',t:'Grundämne',d:'bara en sorts atomer'},{id:'k',t:'Kemisk förening',d:'olika sorters atomer sitter ihop'}],chips:[['Syre','g'],['Väte','g'],['Järn','g'],['Kol','g'],['Vatten','k']],
+     e:'Syre, väte, järn och kol är grundämnen. Vatten är en kemisk förening eftersom det består av väte och syre.'},
+    q('Vad är en kemisk förening?',['Ett ämne där olika sorters atomer sitter ihop','Ett ämne med bara en sorts atomer','En atom utan elektroner','Vatten som har frusit'],'En kemisk förening är ett ämne där olika sorters atomer sitter ihop. Vatten är en kemisk förening av väte och syre.')
+  ];},
+  pool:[
+    q('Är luft materia?',['Ja, luft väger något och tar plats','Nej, luft är ingenting','Bara när det blåser'],'Luft är materia. Den väger något och tar plats, precis som vatten och en stol.'),
+    q('Hur många väteatomer finns det i en vattenmolekyl?',['Två','En','Tre','Ingen'],'En vattenmolekyl har två väteatomer och en syreatom. Därför skrivs vatten H₂O.'),
+    q('Vilket av de här är ett grundämne?',['Järn','Vatten','Is','Vattenånga'],'Järn är ett grundämne. Vatten, is och vattenånga är samma kemiska förening i olika faser.'),
+    q('Varför är vatten en kemisk förening?',['Det består av två sorters atomer: väte och syre','Det är flytande','Det består av bara en sorts atomer','Det är genomskinligt'],'Vatten består av väte och syre som sitter ihop. Olika sorters atomer som sitter ihop är en kemisk förening.')
+  ]},
+ {id:'sym',icon:'🔤',tone:'lilac',title:'Kemiska beteckningar',sub:'H, O, C, N, S, Fe, Cl, O₂ och H₂O',
+  rounds:function(){var s=shuffle(SYM);return [
+    {type:'match',q:'Para ihop ämne och beteckning',pairs:SYM},
+    symQ(s[0],false),symQ(s[1],true),symQ(s[2],false),
+    {type:'memory',q:'Kattmemory: hitta paren',pairs:shuffle(SYM).slice(0,6)}
+  ];}},
+ {id:'fas',icon:'🧊',tone:'aqua',title:'Vattnets tre faser',sub:'Is, vatten och vattenånga',
+  rounds:function(){return [
+    {type:'explore'},
+    {type:'sort',q:'Vilken form är det?',buckets:[{id:'f',t:'Fast form'},{id:'l',t:'Flytande form'},{id:'g',t:'Gasform'}],chips:[['Is','f'],['Snö','f'],['Vatten','l'],['Vattenånga','g']],
+     e:'Is och snö är fast form, vatten är flytande form och vattenånga är gasform.'},
+    {type:'sort',q:'Hur har vattenmolekylerna det?',buckets:[{id:'f',t:'I is'},{id:'l',t:'I flytande vatten'},{id:'g',t:'I vattenånga'}],
+     chips:[['Sitter i ett bestämt mönster och vibrerar','f'],['Är nära varandra men kan glida runt','l'],['Är långt ifrån varandra och rör sig fritt','g']],
+     e:'I is sitter molekylerna i ett bestämt mönster och vibrerar på sina platser. I flytande vatten är de nära varandra men kan glida runt. I vattenånga är de långt ifrån varandra och rör sig fritt.'},
+    q('Vad händer med själva vattenmolekylerna när vattnet byter fas?',['De är likadana hela tiden','De blir större','De byts ut mot andra molekyler','De går sönder'],'Molekylerna är likadana även när vattnet byter fas. Det är bara hur de rör sig som ändras.'),
+    q('Vad kallas vatten i gasform?',['Vattenånga','Is','Snö','Grundvatten'],'Vatten i gasform kallas vattenånga.')
+  ];},
+  pool:[
+    q('Vilka tre faser kan vatten ha?',['Fast form, flytande form och gasform','Varm, ljum och kall','Bäck, sjö och hav','Regn, hagel och dimma'],'Vatten kan vara i fast form (is och snö), flytande form (vatten) och gasform (vattenånga).'),
+    q('I vilken fas sitter vattenmolekylerna i ett bestämt mönster?',['I is','I flytande vatten','I vattenånga'],'I is sitter molekylerna i ett bestämt mönster och vibrerar på sina platser.'),
+    q('I vilken fas är vattenmolekylerna långt ifrån varandra?',['I vattenånga','I is','I flytande vatten'],'I vattenånga är molekylerna långt ifrån varandra och rör sig fritt.'),
+    q('I vilken fas är molekylerna nära varandra men kan glida runt?',['I flytande vatten','I is','I vattenånga'],'I flytande vatten är molekylerna nära varandra men kan glida runt.')
+  ]},
+ {id:'byt',icon:'🌡️',tone:'pink',title:'Vattnet byter fas',sub:'Smälta, avdunsta, kondensera och stelna',
+  rounds:function(){
+    var ex=shuffle([
+      wq('En isbit blir till vatten. Vad kallas det?','Smälta','Att smälta betyder att gå från fast till flytande form.'),
+      wq('Vattnet i en vattenpöl blir vattenånga. Vad kallas det?','Avdunsta','Att avdunsta betyder att gå från flytande form till gasform.'),
+      wq('Vattenånga kyls ner och blir små vattendroppar. Vad kallas det?','Kondensera','Att kondensera betyder att gå från gasform till flytande form.'),
+      wq('Vatten fryser till is. Vad kallas det?','Stelna','Att stelna betyder att gå från flytande till fast form. Vi säger också att vattnet fryser till is.')
+    ]);
+    return [{type:'label',q:'Vad heter det när vattnet byter fas?',art:PHASE_ART,note:'Rosa pilar: det blir varmare. Blå pilar: det blir kallare.',
+      slots:[{x:32.2,y:11.5,a:'smälta'},{x:67.8,y:11.5,a:'avdunsta'},{x:67.8,y:89,a:'kondensera'},{x:32.2,y:89,a:'stelna'}],
+      e:'Is smälter till vatten. Vatten avdunstar till vattenånga. Vattenånga kondenserar till vatten. Vatten stelnar till is.'}].concat(ex,shuffle(this.pool).slice(0,2));
+  },
+  pool:[
+    dq('smälta',0,'Smälta: från fast till flytande form. Exempel: en isbit blir vatten.'),
+    dq('avdunsta',1,'Avdunsta: från flytande form till gasform. Exempel: vattnet i en vattenpöl blir vattenånga.'),
+    dq('kondensera',2,'Kondensera: från gasform till flytande form. Exempel: vattenånga kyls ner och blir små vattendroppar.'),
+    dq('stelna',3,'Stelna: från flytande till fast form. Vi säger också att vattnet fryser till is.')
+  ]},
+ {id:'krets',icon:'🌧️',tone:'sun',title:'Vattnets kretslopp',sub:'Från hav till moln och tillbaka igen',
+  rounds:function(){return [
+    {type:'label',q:'Fyll i vattnets kretslopp',art:CYCLE_ART,cls:'scene',
+     slots:[{x:37.8,y:54.2,a:'avdunstar'},{x:53,y:13.5,a:'kondenserar'},{x:60.5,y:38.7,a:'regn eller snö',w:1},{x:69.4,y:91.5,a:'grundvatten'}],
+     e:'Solen värmer vattnet så att det avdunstar. Vattenångan kondenserar till moln. Vattnet faller som regn eller snö, och en del sipprar ner och blir grundvatten.'},
+    {type:'order',q:'Sätt kretsloppet i rätt ordning',say:'Tryck på det som händer först. Börja med solen!',items:[
+      'Solen värmer vatten i sjöar och hav. Vattnet avdunstar.',
+      'Vattenångan kyls ner och kondenserar till små droppar som bildar moln.',
+      'Vattnet faller ner som regn eller snö.',
+      'En del tas upp av växter. Annat rinner i bäckar och åar eller sipprar ner i marken och blir grundvatten.',
+      'Vattnet kommer tillbaka till sjöar och hav. Sedan börjar det om igen.'],
+     e:'Precis så går vattnets naturliga kretslopp, runt och runt.'},
+    q('Vad får vattnet i sjöar och hav att avdunsta?',['Solen värmer vattnet','Månen lyser på vattnet','Fiskarna plaskar','Molnen suger upp det'],'Solen värmer vatten i sjöar och hav. Då avdunstar vatten och blir vattenånga.'),
+    q('Vad händer när vattenångan kyls ner uppe i luften?',['Den kondenserar till små droppar som bildar moln','Den avdunstar en gång till','Den smälter','Den blir grundvatten direkt'],'Vattenångan kyls ner och kondenserar till små droppar som bildar moln.'),
+    q('Vad kallas vattnet som har sipprat ner i marken?',['Grundvatten','Vattenånga','Avloppsvatten','Ytspänning'],'Vatten som sipprar ner i marken blir grundvatten.')
+  ];},
+  pool:[
+    q('Hur kommer vattnet ner från molnen?',['Som regn eller snö','Som vattenånga','Som grundvatten','Som is från sjön'],'Vattnet faller ner från molnen som regn eller snö.'),
+    q('Vad händer sist i kretsloppet, innan allt börjar om?',['Vattnet kommer tillbaka till sjöar och hav','Vattnet försvinner för alltid','Vattnet stannar i molnen','Vattnet blir till luft'],'Vattnet kommer tillbaka till sjöar och hav. Sedan börjar kretsloppet om igen.')
+  ]},
+ {id:'yta',icon:'💧',tone:'lilac',title:'Ytspänning och övergödning',sub:'Insekter på vattnet och sjöar som mår dåligt',
+  rounds:function(){return [
+    q('Varför kan små insekter gå på vattnet?',['Ytspänningen gör vattenytan som en tunn, seg hinna','De har pyttesmå simfötter','Vattnet är fruset på ytan','De flyger precis ovanför vattnet'],'Ytspänningen gör att vattenytan fungerar ungefär som en tunn, seg hinna. Därför kan små insekter gå på vattnet.',{art:SKATER_ART}),
+    q('Varför bildas ytspänning?',['Vattenmolekylerna dras till varandra och håller ihop','Vattenmolekylerna stöter bort varandra','Det ligger ett tunt lager is på ytan','Luften trycker ner vattnet'],'Vattenmolekylerna dras till varandra och håller ihop. Därför blir vattenytan ungefär som en tunn, seg hinna.'),
+    q('Vilken form får vattendroppar tack vare ytspänningen?',['Runda','Fyrkantiga','Platta','Spetsiga'],'Ytspänningen gör att vattendroppar blir runda.'),
+    q('Hur uppstår övergödning?',['En sjö får för mycket näringsämnen','En sjö får för lite vatten','Det regnar för mycket','Fiskarna äter för mycket'],'Övergödning uppstår när en sjö får för mycket näringsämnen, till exempel från orenat avloppsvatten.'),
+    {type:'order',q:'Vad händer i en övergödd sjö?',say:'Tryck på det som händer först, sedan nästa.',items:[
+      'Sjön får för mycket näringsämnen.',
+      'Alger och växter växer väldigt mycket.',
+      'Algerna och växterna dör och bryts ner.',
+      'När de bryts ner används mycket syre.',
+      'Det blir syrebrist. Fiskar och andra djur kan kvävas.'],
+     e:'För mycket näring ger massor av alger och växter. När de dör och bryts ner används mycket syre. Då kan det bli syrebrist så att fiskar och andra djur kvävs.'},
+    q('Varför är övergödning ett problem?',['Det kan bli syrebrist så att fiskar och andra djur kvävs','Vattnet blir för salt','Sjön fryser till is','Det blir för mycket syre i vattnet'],'När alger och växter dör bryts de ner. Då används mycket syre. Det kan bli syrebrist så att fiskar och andra djur kvävs.')
+  ];},
+  pool:[
+    q('Var kan näringsämnena som ger övergödning komma ifrån?',['Orenat avloppsvatten','Regnbågar','Snö på bergen','Vattenånga'],'För mycket näringsämnen kan till exempel komma från orenat avloppsvatten.'),
+    q('Vad växer väldigt mycket i en övergödd sjö?',['Alger och växter','Fiskar','Isflak','Stenar'],'I en övergödd sjö växer alger och växter väldigt mycket.')
+  ]},
+ {id:'prov',icon:'🏆',tone:'sun',title:'Stora kattprovet',sub:'14 blandade frågor om allt du har övat på',exam:true,
+  rounds:function(){
+    var out=[];
+    STATIONS.forEach(function(s){
+      if(s.exam)return;
+      var two;
+      if(s.id==='sym'){var p=shuffle(SYM);two=[symQ(p[0],true),symQ(p[1],false)];}
+      else{var seen={};two=shuffle(s.rounds().concat(s.pool||[]).filter(function(r){if(r.type!=='mc'||seen[r.q])return false;seen[r.q]=1;return true;})).slice(0,2);}
+      two.forEach(function(r){var c={};for(var k in r)c[k]=r[k];c.topic=s.title;out.push(c);});
+    });
+    return shuffle(out);
+  }}
+];
+STATIONS.forEach(function(s,i){s.n=i+1;});
+var MAX=STATIONS.length*3;
+function totalStars(){return STATIONS.reduce(function(n,s){return n+(save.stars[s.id]||0);},0);}
+
+/* ---------- statusrad ---------- */
+var homeBtn=document.getElementById('homeBtn'),brand=document.getElementById('brand'),soundBtn=document.getElementById('soundBtn');
+function updateBar(){
+  document.getElementById('starCount').textContent=totalStars()+'/'+MAX;
+  document.getElementById('fishCount').textContent=save.fish;
+  soundBtn.textContent=save.sound?'🔊':'🔇';
+}
+function setBar(inside){homeBtn.hidden=!inside;brand.hidden=inside;}
+homeBtn.addEventListener('click',function(){sfx.tap();home();});
+soundBtn.addEventListener('click',function(){save.sound=!save.sound;persist();updateBar();sfx.tap();});
+
+var cleanups=[];
+function clearView(){cleanups.forEach(function(f){try{f();}catch(e){}});cleanups=[];view.innerHTML='';window.scrollTo(0,0);}
+function starStr(n,cls){var s='';for(var i=0;i<3;i++)s+=i<n?'<b class="on">★</b>':'<span>★</span>';return '<span class="'+cls+'" aria-label="'+n+' av 3 stjärnor">'+s+'</span>';}
+
+/* ---------- startsidan ---------- */
+function home(){
+  clearView();setBar(false);updateBar();
+  var total=totalStars();
+  var allDone=STATIONS.every(function(s){return save.stars[s.id];});
+  var hero=el('section','hero');
+  var catBox=el('div','cat',cat('happy'));
+  var bub=el('div','bubble');
+  var greet=total===0?'Jag heter Molly och är din kemikatt. Klara stationerna så blir du redo för kemiprovet. Varje rätt svar ger en fisk till mig!'
+    :total>=MAX?'Alla stjärnor! Du är en riktig kemimästare, och världens gosigaste dessutom. Mjau, vad stolt jag är.'
+    :'Kul att du är tillbaka! Du har '+total+' stjärnor. Vilken station tar vi nu?';
+  var h=el('h1',null,'Hej Selma!');var p=el('p',null,greet);
+  var feed=btn('btn small','Ge Molly en fisk 🐟',function(){
+    if(save.fish<1){p.innerHTML=T('Jag är lite hungrig… Samla fiskar genom att svara rätt på stationerna!');catBox.innerHTML=cat('normal');return;}
+    save.fish--;persist();updateBar();sfx.meow();
+    catBox.innerHTML=cat('love');p.innerHTML=T(pick(FACTS));
+    for(var i=0;i<4;i++){var hrt=el('span','heart','♥');hrt.style.setProperty('--dx',(Math.random()*90-45)+'px');hrt.style.animationDelay=(i*0.12)+'s';catBox.append(hrt);(function(x){setTimeout(function(){x.remove();},1700);})(hrt);}
+  });
+  bub.append(h,p,feed);hero.append(catBox,bub);view.append(hero);
+
+  var next=GIFTS.filter(function(g){return total<g.at;})[0];
+  view.append(el('p','gift',next?'Nästa present till Molly: '+next.name+' när du har '+next.at+' stjärnor.':'Molly har fått alla sina presenter: rosett, labbglasögon och krona!'));
+
+  if(allDone){
+    var d=el('section','diploma');
+    d.append(el('h2',null,'Diplom: Selma är kemimästare'),el('p',null,'Du har klarat alla åtta stationer. Lycka till på kemiprovet!'),btn('btn small','Fira med konfetti',function(){sfx.win();confetti();}));
+    view.append(d);
+  }
+  view.append(el('h2','sec-title','Välj en station'));
+  var grid=el('div','grid');
+  STATIONS.forEach(function(s){
+    var t=btn('tile','<span class="ico t-'+s.tone+'" aria-hidden="true">'+s.icon+'</span><span class="txt"><span class="top"><span class="kick">Station '+s.n+'</span>'+starStr(save.stars[s.id]||0,'stars')+'</span><span class="tt">'+s.title+'</span><span class="sub">'+s.sub+'</span></span>',function(){sfx.tap();play(s);});
+    grid.append(t);
+  });
+  view.append(grid);
+  var r=el('div','row');
+  r.append(btn('btn ghost','📖 Mollys minnesbok',function(){sfx.tap();notes();}));
+  view.append(r);
+}
+
+/* ---------- en station ---------- */
+function play(st){
+  clearView();setBar(true);
+  var rounds=st.rounds(),i=0,mistakes=0,fish=0,missed={},roundClean=[];
+  var head=el('div','st-head','<span class="kick">Station '+st.n+'</span><h1>'+st.title+'</h1>');
+  var dots=el('div','dots');rounds.forEach(function(){dots.append(el('i'));});head.append(dots);
+  var coach=el('div','coach'),catBox=el('div','cat'),bubble=el('div','bubble');bubble.setAttribute('aria-live','polite');coach.append(catBox,bubble);
+  var stage=el('div','stage');
+  var fb=el('div','fb'),fbText=el('p'),nextBtn=btn('btn','Nästa',function(){sfx.tap();i++;show();});
+  fb.append(fbText,nextBtn);fb.hidden=true;
+  view.append(head,coach,stage,fb);
+  cleanups.push(function(){roundClean.forEach(function(f){f();});});
+  var ctx={
+    exam:!!st.exam,stage:stage,
+    onClean:function(f){roundClean.push(f);},
+    say:function(text,mood){catBox.innerHTML=cat(mood||'normal');bubble.innerHTML='<span>'+T(text)+'</span>';},
+    good:function(msg){fish++;save.fish++;persist();updateBar();sfx.good();if(msg!==false)ctx.say(msg||pick(PRAISE),'happy');},
+    bad:function(msg){mistakes++;sfx.bad();if(rounds[i].topic)missed[rounds[i].topic]=1;if(msg!==false)ctx.say(msg||pick(OOPS),'oops');},
+    done:function(text,oops){
+      ctx.say(oops?'Hoppsan! Nu vet du till nästa gång.':pick(PRAISE),oops?'oops':'happy');
+      fbText.innerHTML=T(text||'Bra jobbat!');fb.classList.toggle('oops',!!oops);fb.hidden=false;
+      nextBtn.textContent=i===rounds.length-1?'Klar!':'Nästa';
+      setTimeout(function(){try{fb.scrollIntoView({block:'nearest',behavior:'smooth'});}catch(e){}},60);
+    }
+  };
+  function show(){
+    roundClean.forEach(function(f){f();});roundClean=[];
+    stage.innerHTML='';fb.hidden=true;
+    if(i>=rounds.length)return finish();
+    [].forEach.call(dots.children,function(d,k){d.className=k<i?'done':k===i?'now':'';});
+    RENDER[rounds[i].type](rounds[i],ctx);
+    if(i>0)window.scrollTo(0,0);
+  }
+  function finish(){
+    var stars=mistakes<=1?3:mistakes<=4?2:1;
+    var before=totalStars();
+    save.stars[st.id]=Math.max(save.stars[st.id]||0,stars);persist();
+    var after=totalStars();
+    var gift=GIFTS.filter(function(g){return before<g.at&&after>=g.at;})[0];
+    clearView();setBar(true);updateBar();
+    var res=el('section','result');
+    res.append(el('div','cat',cat(stars===3?'love':'happy')));
+    res.append(el('h1',null,st.exam?'Du fick '+(rounds.length-mistakes)+' av '+rounds.length+' rätt!':'Station '+st.n+' klar!'));
+    res.append(el('div',null,starStr(stars,'bigstars')));
+    res.append(el('p',null,stars===3?'Tre stjärnor! Molly spinner av lycka.':stars===2?'Två stjärnor! Riktigt bra jobbat.':'En stjärna! Spela igen så blir det fler.'));
+    res.append(el('p',null,'Du fångade '+fish+' '+(fish===1?'fisk':'fiskar')+' till Molly 🐟'));
+    if(gift)res.append(el('p','giftbox','Molly fick en present: '+gift.name+'!'));
+    var m=Object.keys(missed);
+    if(st.exam&&m.length)res.append(el('p',null,'Öva lite mer på: <strong>'+m.join(', ')+'</strong>.'));
+    var row=el('div','row');
+    var nx=STATIONS[st.n];
+    if(nx)row.append(btn('btn','Nästa station',function(){sfx.tap();play(nx);}));
+    row.append(btn('btn ghost','Spela igen',function(){sfx.tap();play(st);}),btn('btn ghost','Till kartan',function(){sfx.tap();home();}));
+    res.append(row);view.append(res);
+    sfx.win();if(stars===3)confetti();
+  }
+  show();
+}
+
+/* ---------- dra och släpp (eller tryck ord, tryck ruta) ---------- */
+function dnd(root,accepts,onGood,onBad){
+  var sel=null,zones=[].slice.call(root.querySelectorAll('.zone'));
+  function unsel(){if(sel){sel.classList.remove('sel');sel=null;}root.classList.remove('has-sel');}
+  function zoneAt(x,y){var els=document.elementsFromPoint(x,y);for(var k=0;k<els.length;k++){var z=els[k].closest('.zone');if(z&&root.contains(z))return z;}return null;}
+  function attempt(chip,zone){
+    unsel();
+    if(zone.classList.contains('full'))return;
+    if(accepts(chip,zone)){
+      chip.classList.add('locked');chip.tabIndex=-1;chip.style.transform='';
+      (zone.querySelector('.b-items')||zone).append(chip);
+      if(zone.classList.contains('slot')){zone.classList.add('full');zone.removeAttribute('tabindex');}
+      onGood(chip,zone);
+    }else{shake(chip);onBad(chip,zone);}
+  }
+  [].forEach.call(root.querySelectorAll('.chip'),function(chip){
+    var sx=0,sy=0,pid=null,drag=false,endAt=0;
+    chip.addEventListener('pointerdown',function(e){if(chip.classList.contains('locked')||e.button>0)return;pid=e.pointerId;sx=e.clientX;sy=e.clientY;drag=false;try{chip.setPointerCapture(pid);}catch(_){}});
+    chip.addEventListener('pointermove',function(e){
+      if(e.pointerId!==pid)return;
+      var dx=e.clientX-sx,dy=e.clientY-sy;
+      if(!drag&&Math.hypot(dx,dy)>8){drag=true;unsel();chip.classList.add('dragging');}
+      if(drag){chip.style.transform='translate('+dx+'px,'+dy+'px) scale(1.05)';var z=zoneAt(e.clientX,e.clientY);zones.forEach(function(o){o.classList.toggle('over',o===z&&!o.classList.contains('full'));});}
+    });
+    function end(e){
+      if(e.pointerId!==pid)return;pid=null;
+      if(!drag)return;drag=false;endAt=performance.now();
+      chip.classList.remove('dragging');chip.style.transform='';
+      zones.forEach(function(o){o.classList.remove('over');});
+      var z=e.type==='pointerup'?zoneAt(e.clientX,e.clientY):null;
+      if(z)attempt(chip,z);
+    }
+    chip.addEventListener('pointerup',end);chip.addEventListener('pointercancel',end);
+    chip.addEventListener('click',function(e){
+      if(chip.classList.contains('locked'))return;
+      e.stopPropagation();
+      if(performance.now()-endAt<400)return;
+      if(sel===chip){unsel();return;}
+      unsel();sel=chip;chip.classList.add('sel');root.classList.add('has-sel');sfx.tap();
+    });
+  });
+  zones.forEach(function(z){
+    function go(){if(sel)attempt(sel,z);}
+    z.addEventListener('click',go);
+    z.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+  });
+}
+var DRAG_HINT='Dra orden till rätt ruta. Du kan också trycka på ett ord och sedan på en ruta.';
+
+/* ---------- spelrundor ---------- */
+var PH=[
+  {short:'Is',name:'Fast form: is och snö',txt:'Molekylerna sitter i ett bestämt mönster och vibrerar på sina platser.'},
+  {short:'Vatten',name:'Flytande form: vatten',txt:'Molekylerna är nära varandra men kan glida runt.'},
+  {short:'Vattenånga',name:'Gasform: vattenånga',txt:'Molekylerna är långt ifrån varandra och rör sig fritt.'}
+];
+var RENDER={
+  mc:function(r,ctx){
+    var stage=ctx.stage,over=false;
+    ctx.say(r.say||pick(ASK));
+    stage.append(el('h2','q',r.q));
+    if(r.art)stage.append(el('div','art',r.art));
+    var list=el('div','opts');
+    if(r.o.every(function(t){return t.length<=14;}))list.classList.add('short');
+    var opts=shuffle(r.o.map(function(t,k){return {t:t,ok:k===0};}));
+    function lock(){opts.forEach(function(x){if(!x.b.classList.contains('right'))x.b.disabled=true;});}
+    opts.forEach(function(o){
+      o.b=btn('opt',o.t,function(){
+        if(over)return;
+        if(o.ok){over=true;o.b.classList.add('right');lock();ctx.good(false);ctx.done(r.e);}
+        else{
+          o.b.classList.add('wrong');o.b.disabled=true;
+          if(ctx.exam){over=true;opts.filter(function(x){return x.ok;})[0].b.classList.add('right');lock();ctx.bad(false);ctx.done('Rätt svar är markerat med grönt. '+r.e,true);}
+          else ctx.bad();
+        }
+      });
+      list.append(o.b);
+    });
+    stage.append(list);
+  },
+  label:function(r,ctx){
+    var stage=ctx.stage,left=r.slots.length;
+    ctx.say(r.say||DRAG_HINT);
+    stage.append(el('h2','q',r.q));
+    var pic=el('div','pic'+(r.cls?' '+r.cls:''),r.art);
+    r.slots.forEach(function(s){var z=el('div','zone slot'+(s.w?' w':''));z.style.left=s.x+'%';z.style.top=s.y+'%';z.dataset.a=s.a;z.tabIndex=0;z.setAttribute('role','button');z.setAttribute('aria-label','Tom ruta');pic.append(z);});
+    var tray=el('div','tray');
+    shuffle(r.slots.map(function(s){return s.a;})).forEach(function(a){var c=btn('chip',a);c.dataset.a=a;tray.append(c);});
+    stage.append(pic,tray);
+    if(r.note)stage.append(el('p','note',r.note));
+    dnd(stage,function(c,z){return c.dataset.a===z.dataset.a;},function(){left--;if(left===0){ctx.good(false);ctx.done(r.e);}else ctx.good();},function(){ctx.bad();});
+  },
+  sort:function(r,ctx){
+    var stage=ctx.stage,left=r.chips.length;
+    ctx.say(r.say||'Dra varje bricka till rätt låda. Du kan också trycka på en bricka och sedan på en låda.');
+    stage.append(el('h2','q',r.q));
+    var bs=el('div','buckets');
+    r.buckets.forEach(function(b){var z=el('div','zone bucket','<span class="b-title">'+b.t+'</span>'+(b.d?'<span class="b-desc">'+b.d+'</span>':'')+'<span class="b-items"></span>');z.dataset.id=b.id;z.tabIndex=0;z.setAttribute('role','button');bs.append(z);});
+    var tray=el('div','tray');
+    shuffle(r.chips).forEach(function(c){var ch=btn('chip',c[0]);ch.dataset.b=c[1];tray.append(ch);});
+    stage.append(bs,tray);
+    dnd(stage,function(c,z){return c.dataset.b===z.dataset.id;},function(){left--;if(left===0){ctx.good(false);ctx.done(r.e);}else ctx.good();},function(){ctx.bad();});
+  },
+  match:function(r,ctx){
+    var stage=ctx.stage,left=r.pairs.length,selL=null,selR=null;
+    ctx.say('Tryck på ett ämne och sedan på rätt beteckning.');
+    stage.append(el('h2','q',r.q));
+    var wrap=el('div','match'),cl=el('div','col'),cr=el('div','col');
+    function pickBtn(b,side){
+      if(b.classList.contains('done'))return;
+      sfx.tap();
+      if(side==='L'){if(selL)selL.classList.remove('sel');selL=selL===b?null:b;}
+      else{if(selR)selR.classList.remove('sel');selR=selR===b?null:b;}
+      if(selL)selL.classList.add('sel');if(selR)selR.classList.add('sel');
+      if(selL&&selR){
+        var a=selL,c=selR;selL=selR=null;a.classList.remove('sel');c.classList.remove('sel');
+        if(a.dataset.k===c.dataset.k){
+          a.classList.add('done');c.classList.add('done');a.innerHTML=T(a.dataset.n+' = '+a.dataset.s);
+          left--;
+          if(left===0){ctx.good(false);ctx.done('Alla nio beteckningar på plats! De här ska du kunna utantill till provet.');}
+          else ctx.good(a.dataset.n+' har beteckningen '+a.dataset.s+'. '+pick(PRAISE));
+        }else{shake(a);shake(c);ctx.bad();}
+      }
+    }
+    shuffle(r.pairs).forEach(function(p){var b=btn('mbtn',p[0],function(){pickBtn(b,'L');});b.dataset.k=p[0];b.dataset.n=p[0];b.dataset.s=p[1];cl.append(b);});
+    shuffle(r.pairs).forEach(function(p){var b=btn('mbtn sym',p[1],function(){pickBtn(b,'R');});b.dataset.k=p[0];cr.append(b);});
+    wrap.append(cl,cr);stage.append(wrap);
+  },
+  memory:function(r,ctx){
+    var stage=ctx.stage,left=r.pairs.length,open=[],busy=false;
+    ctx.say('Vänd två kort. Hitta ämnet och dess beteckning!');
+    stage.append(el('h2','q',r.q));
+    var grid=el('div','mem'),cards=[];
+    r.pairs.forEach(function(p){cards.push({k:p[0],t:p[0],p:p},{k:p[0],t:p[1],p:p});});
+    shuffle(cards).forEach(function(c){
+      var b=btn('mcard','<span class="in"><span class="f" aria-hidden="true">🐾</span><span class="b"><span>'+c.t+'</span></span></span>',function(){
+        if(busy||b.classList.contains('open'))return;
+        sfx.tap();b.classList.add('open');open.push({b:b,c:c});
+        if(open.length<2)return;
+        var x=open[0],y=open[1];open=[];
+        if(x.c.k===y.c.k){
+          x.b.classList.add('matched');y.b.classList.add('matched');left--;
+          if(left===0){ctx.good(false);ctx.done('Alla par hittade! Du har koll på beteckningarna.');}
+          else ctx.good(c.p[0]+' har beteckningen '+c.p[1]+'!');
+        }else{busy=true;var t=setTimeout(function(){x.b.classList.remove('open');y.b.classList.remove('open');busy=false;},950);ctx.onClean(function(){clearTimeout(t);});}
+      });
+      b.setAttribute('aria-label','Memorykort');
+      grid.append(b);
+    });
+    stage.append(grid);
+  },
+  order:function(r,ctx){
+    var stage=ctx.stage,next=0;
+    ctx.say(r.say||'Tryck på det som händer först, sedan nästa.');
+    stage.append(el('h2','q',r.q));
+    var list=el('ol','olist'),pool=el('div','opool');
+    shuffle(r.items.map(function(t,k){return {t:t,k:k};})).forEach(function(it){
+      var b=btn('oitem',it.t,function(){
+        if(it.k===next){
+          next++;b.remove();list.append(el('li',null,'<span>'+it.t+'</span>'));
+          if(next===r.items.length){ctx.good(false);ctx.done(r.e);}else ctx.good();
+        }else{shake(b);ctx.bad(next===0?'Inte den. Vad händer allra först?':'Inte riktigt. Vad händer direkt efter det förra?');}
+      });
+      pool.append(b);
+    });
+    stage.append(list,pool);
+  },
+  build:function(r,ctx){
+    var stage=ctx.stage,have=[],done=false,NAMES={H:'Väte',O:'Syre',C:'Kol'};
+    ctx.say(r.say);
+    stage.append(el('h2','q',r.q));
+    var bench=el('div','bench');bench.setAttribute('aria-live','polite');
+    function draw(){
+      bench.innerHTML='';
+      if(!have.length)bench.append(el('span','bench-empty','Byggbordet är tomt. Tryck på atomerna här under.'));
+      have.forEach(function(k,idx){var a=btn('atom a-'+k,k,function(){if(done)return;have.splice(idx,1);sfx.tap();draw();});a.setAttribute('aria-label','Ta bort '+NAMES[k]);bench.append(a);});
+    }
+    var tray=el('div','atoms');
+    Object.keys(NAMES).forEach(function(k){
+      tray.append(btn('atom-btn','<span class="atom a-'+k+'">'+k+'</span><span class="atom-name">'+NAMES[k]+'</span>',function(){if(done||have.length>=6)return;have.push(k);sfx.tap();draw();}));
+    });
+    var row=el('div','row');
+    var test=btn('btn small','Testa molekylen',function(){
+      if(done)return;
+      if(!have.length){ctx.say('Lägg några atomer på byggbordet först!');return;}
+      var cnt={};have.forEach(function(k){cnt[k]=(cnt[k]||0)+1;});
+      var keys={};Object.keys(cnt).concat(Object.keys(r.target)).forEach(function(k){keys[k]=1;});
+      var ok=Object.keys(keys).every(function(k){return (cnt[k]||0)===(r.target[k]||0);});
+      if(ok){
+        done=true;bench.innerHTML=r.mol;tray.hidden=true;row.hidden=true;hint.hidden=true;
+        ctx.good(false);ctx.done(r.e);
+      }else{
+        var extra=Object.keys(cnt).filter(function(k){return !r.target[k];})[0];
+        shake(bench);
+        ctx.bad(extra?'Hoppsan! '+NAMES[extra]+' ('+extra+') finns inte med i '+r.formula+'.':'Inte riktigt. Titta på '+r.formula+' igen: en liten tvåa betyder två atomer av sorten precis före.');
+      }
+    });
+    var clear=btn('btn small ghost','Töm bordet',function(){if(done)return;have=[];draw();});
+    row.append(test,clear);
+    var hint=el('p','note','Tryck på en atom på bordet om du vill ta bort den.');
+    stage.append(bench,tray,row,hint);draw();
+  },
+  explore:function(r,ctx){
+    var stage=ctx.stage;
+    ctx.say('Dra i reglaget och titta på vattenmolekylerna. Prova alla tre faserna!');
+    stage.append(el('h2','q','Värm och kyl vattnet'));
+    var box=el('div','sim'),cv=document.createElement('canvas');cv.setAttribute('role','img');cv.setAttribute('aria-label','Vattenmolekyler som rör sig olika i is, vatten och vattenånga');box.append(cv);
+    var ctrl=el('div','therm','<label for="temp">❄️ Kallt</label><input type="range" id="temp" min="0" max="2" step="1" value="0"><span>Varmt 🔥</span>');
+    var tabs=el('div','phase-tabs'),info=el('div','phase-info');
+    stage.append(box,ctrl,tabs,info,el('p','note','Rosa boll = syreatom (O). Vita bollar = väteatomer (H).'));
+    var slider=ctrl.querySelector('input'),seen={},mode=0,finished=false;
+    var N=18,H=230,W=0,R=14,ps=[],raf=0,col={},frame=0,g=cv.getContext('2d');
+    for(var n=0;n<N;n++)ps.push({x:0,y:0,vx:0,vy:0,rot:0,vr:(Math.random()-.5)*.05,ph:Math.random()*TAU,hx:0,hy:0});
+    function size(){
+      var w=box.clientWidth;if(!w||w===W)return;W=w;
+      var d=Math.min(2,window.devicePixelRatio||1);cv.width=W*d;cv.height=H*d;cv.style.height=H+'px';g.setTransform(d,0,0,d,0,0);
+      var sp=34,cols=6,x0=W/2-(cols-1)*sp/2,y0=H-28;
+      ps.forEach(function(p,k){p.hx=x0+(k%cols)*sp;p.hy=y0-Math.floor(k/cols)*sp;});
+    }
+    size();ps.forEach(function(p){p.x=p.hx;p.y=p.hy;});
+    function colors(){var cs=getComputedStyle(document.documentElement);col={o:cs.getPropertyValue('--atom-o').trim(),h:cs.getPropertyValue('--atom-h').trim(),s:cs.getPropertyValue('--ink-soft').trim()};}
+    function set(k){
+      mode=k;slider.value=k;seen[k]=1;
+      [].forEach.call(tabs.children,function(b,j){b.classList.toggle('on',j===k);b.classList.toggle('seen',!!seen[j]);});
+      info.innerHTML='<strong>'+PH[k].name+'</strong>'+PH[k].txt;
+      if(k===0)ps.forEach(function(p){p.rot=((p.rot%TAU)+TAU)%TAU;if(p.rot>Math.PI)p.rot-=TAU;});
+      else ps.forEach(function(p){if(Math.hypot(p.vx,p.vy)<.05){var a=Math.random()*TAU;p.vx=Math.cos(a)*.3;p.vy=Math.sin(a)*.3;}});
+      if(!finished&&seen[0]&&seen[1]&&seen[2]){finished=true;sfx.good();ctx.done('Såg du? Molekylerna ser likadana ut hela tiden, även när vattnet byter fas. Det är bara hur de rör sig som ändras. Du får gärna leka mer med reglaget.');}
+    }
+    PH.forEach(function(p,k){tabs.append(btn('ptab',p.short,function(){sfx.tap();set(k);}));});
+    slider.addEventListener('input',function(){set(+slider.value);});
+    function tick(now){
+      raf=requestAnimationFrame(tick);size();if(!W)return;
+      if(frame++%60===0)colors();
+      var t=now/1000;
+      if(mode===0){
+        ps.forEach(function(p){var tx=p.hx+Math.sin(t*30+p.ph)*1.7,ty=p.hy+Math.cos(t*27+p.ph*2)*1.7;p.x+=(tx-p.x)*.12;p.y+=(ty-p.y)*.12;p.rot+=(0-p.rot)*.1;p.vx=p.vy=0;});
+      }else{
+        var target=mode===1?.55:2.4,top=mode===1?H*.56:R+6;
+        ps.forEach(function(p){
+          if(mode===1){p.vx+=(Math.random()-.5)*.08;p.vy+=(Math.random()-.5)*.08;}
+          var s=Math.hypot(p.vx,p.vy)||.01,ns=s+(target-s)*.06;p.vx*=ns/s;p.vy*=ns/s;
+          p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr*(mode===2?2.5:1);
+          if(p.x<R){p.x=R;p.vx=Math.abs(p.vx);}
+          if(p.x>W-R){p.x=W-R;p.vx=-Math.abs(p.vx);}
+          if(p.y>H-R){p.y=H-R;p.vy=-Math.abs(p.vy);}
+          if(p.y<top){if(mode===1){p.y+=(top-p.y)*.06+.5;p.vy=Math.abs(p.vy);}else{p.y=top;p.vy=Math.abs(p.vy);}}
+        });
+        var minD=mode===1?29:27;
+        for(var a=0;a<N;a++)for(var b=a+1;b<N;b++){
+          var A=ps[a],B=ps[b],dx=B.x-A.x,dy=B.y-A.y,d=Math.hypot(dx,dy)||.01;
+          if(d<minD){var k=(minD-d)/2/d;A.x-=dx*k;A.y-=dy*k;B.x+=dx*k;B.y+=dy*k;if(mode===2){var tx2=A.vx,ty2=A.vy;A.vx=B.vx;A.vy=B.vy;B.vx=tx2;B.vy=ty2;}}
+        }
+      }
+      g.clearRect(0,0,W,H);
+      ps.forEach(function(p){
+        g.lineWidth=1.5;g.strokeStyle=col.s;g.fillStyle=col.h;
+        [-.9,.9].forEach(function(o){var an=p.rot-Math.PI/2+o;g.beginPath();g.arc(p.x+Math.cos(an)*12,p.y+Math.sin(an)*12,6,0,TAU);g.fill();g.stroke();});
+        g.fillStyle=col.o;g.beginPath();g.arc(p.x,p.y,10,0,TAU);g.fill();g.stroke();
+      });
+    }
+    raf=requestAnimationFrame(tick);
+    ctx.onClean(function(){cancelAnimationFrame(raf);});
+    set(0);
+  }
+};
+
+/* ---------- minnesboken ---------- */
+var NOTES=[
+ ['Atomen',[
+  ['Vad är en atom?','En atom är en pytteliten byggsten. Allt omkring oss är uppbyggt av atomer.'],
+  ['Hur är en atom uppbyggd?','I mitten finns en atomkärna med protoner och neutroner. Runt kärnan finns elektroner. Protoner är positiva, elektroner är negativa och neutroner saknar laddning.'],
+  ['Hur ritar du en atom?','Rita en kärna med protoner och neutroner i mitten. Rita elektroner runt kärnan. Skriv orden atomkärna, proton, neutron och elektron vid rätt delar.']]],
+ ['Molekyler och ämnen',[
+  ['Vad är materia?','Materia är allt som väger något och tar plats, till exempel vatten, luft och en stol.'],
+  ['Vad är en molekyl?','En molekyl är två eller flera atomer som sitter ihop. Exempel är vattenmolekyler och syremolekyler.'],
+  ['Vad är ett grundämne?','Ett grundämne innehåller bara en sorts atomer. Syre, väte, järn och kol är grundämnen.'],
+  ['Vad är en kemisk förening?','Ett ämne där olika sorters atomer sitter ihop. Vatten är en kemisk förening eftersom det består av väte och syre.'],
+  ['Hur är en vattenmolekyl uppbyggd?','Den består av två väteatomer och en syreatom. Därför skrivs vatten H₂O.']]],
+ ['Kemiska beteckningar','SYM'],
+ ['Vattnets tre faser',[
+  ['Vilka tre faser kan vatten ha?','Fast form: is och snö. Flytande form: vatten. Gasform: vattenånga.'],
+  ['Hur är molekylerna i is?','De sitter i ett bestämt mönster och vibrerar på sina platser.'],
+  ['Hur är molekylerna i flytande vatten?','De är nära varandra men kan glida runt.'],
+  ['Hur är molekylerna i vattenånga?','De är långt ifrån varandra och rör sig fritt.'],
+  ['Ändras molekylerna?','Nej. Molekylerna är likadana även när vattnet byter fas.']]],
+ ['Vattnet byter fas',[
+  ['Smälta','Från fast till flytande form. Exempel: en isbit blir vatten.'],
+  ['Avdunsta','Från flytande form till gasform. Exempel: vattnet i en vattenpöl blir vattenånga.'],
+  ['Kondensera','Från gasform till flytande form. Exempel: vattenånga kyls ner och blir små vattendroppar.'],
+  ['Stelna','Från flytande till fast form. När vatten stelnar säger vi också att det fryser till is.']]],
+ ['Vattnets kretslopp',[
+  ['1. Avdunstning','Solen värmer vatten i sjöar och hav. Vatten avdunstar.'],
+  ['2. Moln','Vattenångan kyls ner och kondenserar till små droppar som bildar moln.'],
+  ['3. Regn eller snö','Vattnet faller ner som regn eller snö.'],
+  ['4. På marken','En del tas upp av växter. Annat rinner i bäckar och åar eller sipprar ner i marken och blir grundvatten.'],
+  ['5. Tillbaka','Vattnet kommer tillbaka till sjöar och hav. Sedan börjar det om igen.']]],
+ ['Ytspänning och övergödning',[
+  ['Vad är ytspänning?','Vattenmolekylerna dras till varandra och håller ihop. Därför fungerar vattenytan ungefär som en tunn, seg hinna. Den gör att små insekter kan gå på vattnet och att vattendroppar blir runda.'],
+  ['Hur uppstår övergödning?','När en sjö får för mycket näringsämnen, till exempel från orenat avloppsvatten. Då växer alger och växter väldigt mycket.'],
+  ['Varför är övergödning ett problem?','När alger och växter dör bryts de ner. Då används mycket syre. Det kan bli syrebrist, så att fiskar och andra djur kvävs.']]]
+];
+function notes(){
+  clearView();setBar(true);
+  var head=el('div','st-head','<span class="kick">Allt till provet</span><h1>Mollys minnesbok</h1>');
+  view.append(head);
+  NOTES.forEach(function(n){
+    var c=el('section','note-card');c.append(el('h2',null,n[0]));
+    if(n[1]==='SYM'){var t=el('div','symtab');SYM.forEach(function(p){t.append(el('div',null,'<span>'+p[0]+'</span><b>'+p[1]+'</b>'));});c.append(t);c.append(el('p','gift','Syrgas är en molekyl med två syreatomer.'));}
+    else{var dl=el('dl');n[1].forEach(function(x){var w=el('div');w.append(el('dt',null,x[0]),el('dd',null,x[1]));dl.append(w);});c.append(dl);}
+    view.append(c);
+  });
+  var r=el('div','row');r.append(btn('btn','Till kartan',function(){sfx.tap();home();}));view.append(r);
+}
+
+/* ---------- konfetti ---------- */
+function confetti(){
+  try{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;}catch(e){}
+  var c=document.createElement('canvas');c.className='confetti';document.body.append(c);
+  var g=c.getContext('2d'),W=c.width=window.innerWidth,H=c.height=window.innerHeight;
+  var cs=getComputedStyle(document.documentElement),cols=['--pink','--sun','--aqua','--lilac'].map(function(v){return cs.getPropertyValue(v).trim();});
+  var ps=[];for(var i=0;i<90;i++)ps.push({x:Math.random()*W,y:-20-Math.random()*H*.5,vx:(Math.random()-.5)*3,vy:2.5+Math.random()*4,r:4+Math.random()*5,c:pick(cols),a:Math.random()*6,va:(Math.random()-.5)*.3});
+  var t0=performance.now();
+  (function f(t){
+    g.clearRect(0,0,W,H);
+    ps.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.a+=p.va;g.save();g.translate(p.x,p.y);g.rotate(p.a);g.fillStyle=p.c;g.fillRect(-p.r,-p.r/2,p.r*2,p.r);g.restore();});
+    if(t-t0<2800)requestAnimationFrame(f);else c.remove();
+  })(t0);
+}
+
+home();
+})();
+</script>
+</body>
+</html>
